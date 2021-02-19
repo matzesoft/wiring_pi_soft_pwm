@@ -8,20 +8,17 @@ I mainly created this package for one of my own projects, so I haven't done a lo
 
 Visit this [guide](http://wiringpi.com/download-and-install/) to install the Wiring Pi library on your Raspberry Pi. If your are using a Raspberry Pi 4B you might also check this [post](http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/).
 
+The library (`.so` file) should be located under `/usr/lib/libwiringPi.so`.
+
 ## Using the package
 
-The first thing you always want to do is to create the `SoftPwmInterface`. You can specific a path to the dynamic library, the default path is `/usr/lib/libwiringPi.so`.
+The first thing todo is to create the `SoftPwmGpio`. It takes the the pin of the GPIO. Afterwards call the `setup` method.
 ```dart
-final pwmInterface = SoftPwmInterface(path: '/path/to/library.so');
+final pwmGpio = SoftPwmGpio(12);
+pwmGpio.setup();
 ```
 
-Now create the `SoftPwmPin`. It takes the `SoftPwmInterface` created before and the pin of the GPIO. Afterwards call the `setup` method.
+The `SoftPwmGpio` is setup and ready to use. You can use the `write` method to set the PWM duty cycle. The methods only allows values between 0 and 100.
 ```dart
-final pwmPin = SoftPwmPin(pwmInterface, 12);
-pwmPin.setup();
-```
-
-The `SoftPwmPin` is setup and ready to use. You can use the `write` method to set the PWM duty cycle. The methods only allows values between 0 and 100.
-```dart
-pwmPin.write(50);
+pwmGpio.write(50);
 ```

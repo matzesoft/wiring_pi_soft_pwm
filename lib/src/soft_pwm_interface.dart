@@ -1,36 +1,24 @@
 import 'package:wiring_pi_soft_pwm/src/soft_pwm_native.dart';
 
-/// Default path of the Wiring Pi library.
-const _DEFAULT_PATH = '/usr/lib/libwiringPi.so';
-
 /// Range of the PWM. Goes from 0 to this value.
 const _PWM_RANGE = 100;
 
-/// Holds the instance of the Wiring Pi library.
-class SoftPwmInterface {
-  SoftPwmNative _native;
+/// Entry point for using software PWM.
+class SoftPwmGpio {
+  static SoftPwmNative _native;
 
-  /// Opens the Wiring Pi library. The [path] should point to the `.so` file.
-  /// The default path is `/usr/lib/libwiringPi.so`.
-  ///
-  /// Check http://wiringpi.com/download-and-install/ on more information how
-  /// to install Wiring Pi correctly.
-  /// If you are using the Raspberry Pi 4B you might have to manually upgrade
-  /// to version 2.52 (http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/).
-  SoftPwmInterface({String path: _DEFAULT_PATH}) {
-    _native = SoftPwmNative(_DEFAULT_PATH);
-  }
-}
-
-class SoftPwmPin {
-  SoftPwmNative _native;
-
-  /// Pin number of the PWM pin.
+  /// Pin number of the PWM gpio.
   int _pin = -1;
 
-  SoftPwmPin(SoftPwmInterface interface, this._pin) {
-    this._native = interface._native;
-    _native.wiringPiSetupGpio();
+  /// Opens the Wiring Pi library. Check http://wiringpi.com/download-and-install/
+  /// on more information how to install Wiring Pi correctly.
+  /// If you are using the Raspberry Pi 4B you might have to manually upgrade
+  /// to version 2.52 (http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/).
+  SoftPwmGpio(this._pin) {
+    if (_native == null) {
+      _native = SoftPwmNative();
+      _native.wiringPiSetupGpio();
+    }
   }
 
   /// Sets up the software pwm for the specific pin.

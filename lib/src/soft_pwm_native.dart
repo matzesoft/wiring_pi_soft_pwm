@@ -3,6 +3,9 @@ import 'dart:io';
 
 /// Documentation is copied from `http://wiringpi.com/reference/`(10.02.2021, 17:54 CET).
 
+/// Default path of the Wiring Pi library.
+const _WIRING_PI_PATH = '/usr/lib/libwiringPi.so';
+
 /// WiringPi Native: `wiringPiSetupGpio(void);`
 typedef wiring_pi_setup_gpio = Void Function();
 typedef WiringPiSetupGpio = void Function();
@@ -24,7 +27,6 @@ typedef soft_pwm_write = Void Function(Int32 pin, Int32 value);
 typedef SoftPwmWrite = void Function(int pin, int value);
 
 class SoftPwmNative {
-  final String _path = '/usr/lib/libwiringPi.so';
   DynamicLibrary _dylib;
 
   WiringPiSetupGpio wiringPiSetupGpio;
@@ -40,9 +42,9 @@ class SoftPwmNative {
   /// will be silently ignored.
   SoftPwmWrite softPwmWrite;
 
-  SoftPwmNative(String path) {
+  SoftPwmNative({String path: _WIRING_PI_PATH}) {
     try {
-      _dylib = DynamicLibrary.open(_path);
+      _dylib = DynamicLibrary.open(path);
     } on ArgumentError catch (_) {
       throw FileSystemException(
         """
