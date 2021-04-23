@@ -27,20 +27,26 @@ typedef soft_pwm_write = Void Function(Int32 pin, Int32 value);
 typedef SoftPwmWrite = void Function(int pin, int value);
 
 class SoftPwmNative {
-  DynamicLibrary _dylib;
+  DynamicLibrary? _dylib;
 
-  WiringPiSetupGpio wiringPiSetupGpio;
+  late final wiringPiSetupGpio = _dylib!
+      .lookup<NativeFunction<wiring_pi_setup_gpio>>('wiringPiSetupGpio')
+      .asFunction<WiringPiSetupGpio>();
 
   /// This creates a software controlled PWM pin. You can use any GPIO pin and
   /// the pin numbering will be that of the wiringPiSetup() function you used.
   /// Use 100 for the pwmRange, then the value can be anything from 0 (off) to
   /// 100 (fully on) for the given pin. The return value is 0 for success.
-  SoftPwmCreate softPwmCreate;
+  late final softPwmCreate = _dylib!
+      .lookup<NativeFunction<soft_pwm_create>>('softPwmCreate')
+      .asFunction<SoftPwmCreate>();
 
   /// This updates the PWM value on the given pin. The value is checked to be
   /// in-range and pins that haven’t previously been initialised via softPwmCreate
   /// will be silently ignored.
-  SoftPwmWrite softPwmWrite;
+  late final softPwmWrite = _dylib!
+      .lookup<NativeFunction<soft_pwm_write>>('softPwmWrite')
+      .asFunction<SoftPwmWrite>();
 
   SoftPwmNative({String path: _WIRING_PI_PATH}) {
     try {
@@ -56,14 +62,5 @@ class SoftPwmNative {
         path,
       );
     }
-    wiringPiSetupGpio = _dylib
-        .lookup<NativeFunction<wiring_pi_setup_gpio>>('wiringPiSetupGpio')
-        .asFunction<WiringPiSetupGpio>();
-    softPwmCreate = _dylib
-        .lookup<NativeFunction<soft_pwm_create>>('softPwmCreate')
-        .asFunction<SoftPwmCreate>();
-    softPwmWrite = _dylib
-        .lookup<NativeFunction<soft_pwm_write>>('softPwmWrite')
-        .asFunction<SoftPwmWrite>();
   }
 }

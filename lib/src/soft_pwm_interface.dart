@@ -5,7 +5,7 @@ const _PWM_RANGE = 100;
 
 /// Entry point for using software PWM.
 class SoftPwmGpio {
-  static SoftPwmNative _native;
+  static SoftPwmNative _native = SoftPwmNative();
 
   /// Pin number of the PWM gpio.
   int _pin = -1;
@@ -15,10 +15,7 @@ class SoftPwmGpio {
   /// If you are using the Raspberry Pi 4B you might have to manually upgrade
   /// to version 2.52 (http://wiringpi.com/wiringpi-updated-to-2-52-for-the-raspberry-pi-4b/).
   SoftPwmGpio(this._pin) {
-    if (_native == null) {
-      _native = SoftPwmNative();
-      _native.wiringPiSetupGpio();
-    }
+    _native.wiringPiSetupGpio();
   }
 
   /// Sets up the software pwm for the specific pin.
