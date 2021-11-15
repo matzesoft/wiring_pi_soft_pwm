@@ -1,7 +1,6 @@
 name: wiring_pi_soft_pwm
 description: Dart implementation of the Wiring Pi Software PWM library.
 version: 0.2.0
-author: matzesoft
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
