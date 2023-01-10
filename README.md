@@ -18,7 +18,7 @@ final pwmGpio = SoftPwmGpio(12);
 pwmGpio.setup();
 ```
 
-The `SoftPwmGpio` is setup and ready to use. You can use the `write` method to set the PWM duty cycle. The methods only allows values between 0 and 100.
+The `SoftPwmGpio` is now setup and ready to use. You can use the `write` method to set the PWM duty cycle. The method only allows values between 0 and 100.
 ```dart
 pwmGpio.write(50);
 ```
