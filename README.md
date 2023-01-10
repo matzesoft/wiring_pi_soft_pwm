@@ -12,7 +12,7 @@ The library (`.so` file) should be located under `/usr/lib/libwiringPi.so`.
 
 ## Using the package
 
-The first thing todo is to create the `SoftPwmGpio`. It takes the the pin of the GPIO. Afterwards call the `setup` method.
+First create the `SoftPwmGpio`. It takes the the pin of the GPIO. Afterwards call the `setup` method.
 ```dart
 final pwmGpio = SoftPwmGpio(12);
 pwmGpio.setup();
